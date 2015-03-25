@@ -3,11 +3,14 @@ package com.example.schs.charlestonwalkingtour;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -20,6 +23,7 @@ import java.net.URL;
 public class Map1844 extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private static final LatLng Charleston = new LatLng(32.78, -79.93); //getResources().getString(R.string.chas_*)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,5 +102,7 @@ public class Map1844 extends FragmentActivity {
 
         TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
                 .tileProvider(tileProvider));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Charleston,13));
+
     }
 }
