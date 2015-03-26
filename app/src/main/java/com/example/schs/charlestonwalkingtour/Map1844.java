@@ -1,7 +1,10 @@
 package com.example.schs.charlestonwalkingtour;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.SimpleCursorAdapter;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,6 +14,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -21,15 +25,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Map1844 extends FragmentActivity {
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    Database_Sqliteopenhelper dbHelper = new Database_Sqliteopenhelper(this);
     private static final LatLng Charleston = new LatLng(32.78, -79.93); //getResources().getString(R.string.chas_*)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map1844);
-
         setUpMapIfNeeded();
     }
 
@@ -37,6 +40,12 @@ public class Map1844 extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
 
@@ -103,6 +112,22 @@ public class Map1844 extends FragmentActivity {
         TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
                 .tileProvider(tileProvider));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Charleston,13));
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = dbHelper.fetchAllMarkers(db); // already at first
+        boolean a = true;
+        while(a){//cursor != null){
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String type = cursor.getString(cursor.getColumnIndex("type"));
+            Double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
+            Double lon = cursor.getDouble(cursor.getColumnIndex("long"));
+            //String imglink = cursor.getString(cursor.getColumnIndex("imglink"));
+            String desc = cursor.getString(cursor.getColumnIndex("desc"));
+            LatLng location = new LatLng(lat, lon);
+            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(desc));
+            a = false;
+            //cursor.moveToNext();
+        }
 
     }
 }

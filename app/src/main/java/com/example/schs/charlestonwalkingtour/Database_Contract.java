@@ -6,7 +6,7 @@ public final class Database_Contract {
 
     public static final String TABLE_NAME = "map_markers";
     public static final String[] COLUMNS =
-            {"_id","name","type","lat","long"};
+            {"_id","name","type","lat","long","imglink","desc"};
     /*
     _id ~ required by Android
     name ~ name of marker (could be the name of the location)

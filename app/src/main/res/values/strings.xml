@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Charleston Walking Tour</string>
     <string name="title_activity_map1844">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="main1844">1844</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

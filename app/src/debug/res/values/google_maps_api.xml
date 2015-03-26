@@ -13,8 +13,8 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     string in this file.
     -->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        AIzaSyA6r1vIEmBMY48vbMJApoP9XoQx724Dopg <!-- Parker's debug key -->
-        <!--AIzaSyDJNBtE-EYaJ-J581N6TI49Pz7shD6Gimk--> <!-- Clayton's debug key -->
+        <!--AIzaSyA6r1vIEmBMY48vbMJApoP9XoQx724Dopg--> <!-- Parker's debug key -->
+        AIzaSyDJNBtE-EYaJ-J581N6TI49Pz7shD6Gimk <!-- Clayton's debug key -->
     </string>
     <string name="chas_lat">32.7833</string>
     <string name="chas_long">79.9333</string>

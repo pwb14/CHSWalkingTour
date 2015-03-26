@@ -12,6 +12,8 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
     public static final String key_type = "type";
     public static final String key_lat = "lat";
     public static final String key_long = "long";
+    public static final String key_imglink = "imglink";
+    public static final String key_desc = "desc";
     public Database_Sqliteopenhelper(Context context){
         super(context, Database_Contract.DB_NAME, null,
                 Database_Contract.DB_VERSION);
@@ -22,9 +24,11 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
                         + "("
                         + "  "+key_id+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + "  "+key_name+" TEXT NOT NULL,"
-                        + "  "+key_type+" TEXT,"
-                        + "  "+key_lat+" REAL,"
-                        + "  "+key_long+" REAL"
+                        + "  "+key_type+" TEXT NOT NULL,"
+                        + "  "+key_lat+" REAL NOT NULL,"
+                        + "  "+key_long+" REAL NOT NULL,"
+                        + "  "+key_imglink+" TEXT,"
+                        + "  "+key_desc+" TEXT"
                         + ")";
         db.execSQL(createSql);
         insertContacts(db);
@@ -34,10 +38,12 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
     private void insertContacts(SQLiteDatabase db){
         // initial inserts for the database
         String tableName = Database_Contract.TABLE_NAME;
-        String[] names = {};
-        String[] types = {};
-        Double[] lats = {};
-        Double[] longs = {};
+        String[] names = {"South Carolina Historical Society"};
+        String[] types = {"Museum"};
+        Double[] lats = {32.777245};
+        Double[] longs = {-79.930942};
+        String[] imglinks = {"http://www.nps.gov/nr/travel/charleston/buildings/fir1.jpg"};
+        String[] desc = {"My first datapoint"};
 
         for(int i = 0; i < names.length; i++){
             ContentValues values = new ContentValues();
@@ -45,6 +51,8 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
             values.put(key_type,types[i]);
             values.put(key_lat,lats[i]);
             values.put(key_long,longs[i]);
+            values.put(key_imglink,imglinks[i]);
+            values.put(key_desc,desc[i]);
             db.insert(tableName, null, values);
         }
     }
@@ -52,7 +60,7 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
     public Cursor fetchAllMarkers(SQLiteDatabase db){
         Cursor c = db.query(Database_Contract.TABLE_NAME,
                 new String[] {key_id,key_name,
-                        key_type,key_lat,key_long},
+                        key_type,key_lat,key_long,key_imglink,key_desc},
                 null,null,null,null,null);
         if (c != null)
             c.moveToFirst();
