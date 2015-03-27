@@ -1,10 +1,13 @@
 package com.example.schs.charlestonwalkingtour;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -64,6 +67,7 @@ public class Map1844 extends FragmentActivity {
 
 
     private void setUpMap() {
+        String name, imglink, desc;
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 //        LatLng NEWARK = new LatLng(40.714086, -74.228697);
 //
@@ -117,17 +121,30 @@ public class Map1844 extends FragmentActivity {
         Cursor cursor = dbHelper.fetchAllMarkers(db); // already at first
         boolean a = true;
         while(a){//cursor != null){
-            String name = cursor.getString(cursor.getColumnIndex("name"));
+            name = cursor.getString(cursor.getColumnIndex("name"));
             String type = cursor.getString(cursor.getColumnIndex("type"));
             Double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
             Double lon = cursor.getDouble(cursor.getColumnIndex("long"));
-            //String imglink = cursor.getString(cursor.getColumnIndex("imglink"));
-            String desc = cursor.getString(cursor.getColumnIndex("desc"));
+            imglink = cursor.getString(cursor.getColumnIndex("imglink"));
+            desc = cursor.getString(cursor.getColumnIndex("desc"));
             LatLng location = new LatLng(lat, lon);
-            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(desc));
+            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(desc+"Image URL: "+imglink));
             a = false;
             //cursor.moveToNext();
+
         }
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent moreInfoIntent = new Intent(getApplicationContext(), MoreInfoActivity.class);
+                moreInfoIntent.putExtra("name",marker.getTitle());
+                moreInfoIntent.putExtra("desc",marker.getSnippet().toString().split("Image URL: ")[0]);
+                moreInfoIntent.putExtra("imglink",marker.getSnippet().toString().split("Image URL: ")[1]);
+                startActivity(moreInfoIntent);
+            }
+        });
 
     }
+
 }
