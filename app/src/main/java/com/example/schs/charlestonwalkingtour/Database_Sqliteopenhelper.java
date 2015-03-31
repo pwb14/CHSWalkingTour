@@ -38,12 +38,13 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
     private void insertContacts(SQLiteDatabase db){
         // initial inserts for the database
         String tableName = Database_Contract.TABLE_NAME;
-        String[] names = {"South Carolina Historical Society"};
-        String[] types = {"Museum"};
-        Double[] lats = {32.777245};
-        Double[] longs = {-79.930942};
-        String[] imglinks = {"http://www.nps.gov/nr/travel/charleston/buildings/fir1.jpg"};
-        String[] desc = {"My first datapoint"};
+        String[] names = {"South Carolina Historical Society","First Baptist Church"};
+        String[] types = {"Museum","Church"};
+        Double[] lats = {32.777245,32.773923};
+        Double[] longs = {-79.930942,-79.930063};
+        String[] imglinks = {"http://www.nps.gov/nr/travel/charleston/buildings/fir1.jpg",
+                "http://www.southcarolinahistoricalsociety.org/wp-content/uploads/2015/03/schs_first_baptist_chruch.jpg"};
+        String[] desc = {"My first datapoint","Regarded as the 'Mother Church' of the Southern Baptist denomination, Charleston's First Baptist Church at number 61 Church ..."};
 
         for(int i = 0; i < names.length; i++){
             ContentValues values = new ContentValues();
@@ -62,6 +63,14 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
                 new String[] {key_id,key_name,
                         key_type,key_lat,key_long,key_imglink,key_desc},
                 null,null,null,null,null);
+        if (c != null)
+            c.moveToFirst();
+        return c;
+    }
+    public Cursor fetchImageURL(SQLiteDatabase db, String name){
+        Cursor c = db.query(Database_Contract.TABLE_NAME,
+                new String[] {key_imglink},
+                "name=?", new String[] {name}, null, null, null);
         if (c != null)
             c.moveToFirst();
         return c;

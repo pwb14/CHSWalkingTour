@@ -119,8 +119,8 @@ public class Map1844 extends FragmentActivity {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = dbHelper.fetchAllMarkers(db); // already at first
-        boolean a = true;
-        while(a){//cursor != null){
+       // boolean a = true;
+        do {//cursor != null){
             name = cursor.getString(cursor.getColumnIndex("name"));
             String type = cursor.getString(cursor.getColumnIndex("type"));
             Double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
@@ -128,19 +128,23 @@ public class Map1844 extends FragmentActivity {
             imglink = cursor.getString(cursor.getColumnIndex("imglink"));
             desc = cursor.getString(cursor.getColumnIndex("desc"));
             LatLng location = new LatLng(lat, lon);
-            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(desc+"Image URL: "+imglink));
-            a = false;
+            mMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title(name)
+                    .snippet(desc)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.fireproof_icon)));
+           // if ()
+               // a = false;
             //cursor.moveToNext();
+        } while(cursor.moveToNext() == true);
 
-        }
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent moreInfoIntent = new Intent(getApplicationContext(), MoreInfoActivity.class);
                 moreInfoIntent.putExtra("name",marker.getTitle());
-                moreInfoIntent.putExtra("desc",marker.getSnippet().toString().split("Image URL: ")[0]);
-                moreInfoIntent.putExtra("imglink",marker.getSnippet().toString().split("Image URL: ")[1]);
+                moreInfoIntent.putExtra("desc",marker.getSnippet().toString());
                 startActivity(moreInfoIntent);
             }
         });
