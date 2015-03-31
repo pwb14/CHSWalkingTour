@@ -1,11 +1,16 @@
 package com.example.schs.charlestonwalkingtour;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
@@ -48,7 +53,7 @@ public class Map1844 extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
+
     }
 
 
@@ -66,35 +71,23 @@ public class Map1844 extends FragmentActivity {
     }
 
 
-    private void setUpMap() {
-        String name, imglink, desc;
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-//        LatLng NEWARK = new LatLng(40.714086, -74.228697);
-//
-//        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
-//                .image(BitmapDescriptorFactory.fromResource(R.drawable.charleston_map_1844))
-//                .position(NEWARK, 8600f, 6500f);
-//        mMap.addGroundOverlay(newarkMap);
+    private TileProvider setTilesURL (final String url){
+
         TileProvider tileProvider = new UrlTileProvider(256, 256) {
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
-
     /* Define the URL pattern for the tile images */
-
-                String s = String.format("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png",
+                String s = String.format(url,
                         zoom, x, y);
-
                 if (!checkTileExists(x, y, zoom)) {
                     return null;
                 }
-
                 try {
                     return new URL(s);
                 } catch (MalformedURLException e) {
                     throw new AssertionError(e);
                 }
             }
-
             /*
              * Check that the tile server supports the requested x, y and zoom.
              * Complete this stub according to the tile range you support.
@@ -104,17 +97,57 @@ public class Map1844 extends FragmentActivity {
             private boolean checkTileExists(int x, int y, int zoom) {
                 int minZoom = 12;
                 int maxZoom = 16;
-
                 if ((zoom < minZoom || zoom > maxZoom)) {
                     return false;
                 }
-
                 return true;
             }
         };
+        return tileProvider;
+    }
 
-        TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                .tileProvider(tileProvider));
+    private void setUpMap() {
+        String name, imglink, desc;
+//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+//        LatLng NEWARK = new LatLng(40.714086, -74.228697);
+//
+//        GroundOverlayOptions newarkMap = new GroundOverlayOptions()
+//                .image(BitmapDescriptorFactory.fromResource(R.drawable.charleston_map_1844))
+//                .position(NEWARK, 8600f, 6500f);
+//        mMap.addGroundOverlay(newarkMap);
+//        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+//            @Override
+//            public URL getTileUrl(int x, int y, int zoom) {
+//    /* Define the URL pattern for the tile images */
+//                String s = String.format("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png",
+//                        zoom, x, y);
+//                if (!checkTileExists(x, y, zoom)) {
+//                    return null;
+//                }
+//                try {
+//                    return new URL(s);
+//                } catch (MalformedURLException e) {
+//                    throw new AssertionError(e);
+//                }
+//            }
+//            /*
+//             * Check that the tile server supports the requested x, y and zoom.
+//             * Complete this stub according to the tile range you support.
+//             * If you support a limited range of tiles at different zoom levels, then you
+//             * need to define the supported x, y range at each zoom level.
+//             */
+//            private boolean checkTileExists(int x, int y, int zoom) {
+//                int minZoom = 12;
+//                int maxZoom = 16;
+//                if ((zoom < minZoom || zoom > maxZoom)) {
+//                    return false;
+//                }
+//                return true;
+//            }
+//        };
+
+        final TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png")));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Charleston,13));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -139,13 +172,32 @@ public class Map1844 extends FragmentActivity {
         } while(cursor.moveToNext() == true);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent moreInfoIntent = new Intent(getApplicationContext(), MoreInfoActivity.class);
                 moreInfoIntent.putExtra("name",marker.getTitle());
                 moreInfoIntent.putExtra("desc",marker.getSnippet().toString());
                 startActivity(moreInfoIntent);
+            }
+        });
+        Button changeMapButton = (Button) findViewById(R.id.change_map_button);
+        changeMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final CharSequence[] items = {"1844", "1855", "1901"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Map1844.this);
+                builder.setTitle("Select a map");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        tileOverlay.remove();
+                        TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                                .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles1855/master/%d/%d/%d.png")));
+
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
