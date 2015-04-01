@@ -1,0 +1,53 @@
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:layout_centerVertical="true"
+android:layout_centerHorizontal="true">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_selection"
+        android:id="@+id/textView2"
+        android:layout_gravity="left"
+        android:textSize="@dimen/text_size" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_house"
+        android:id="@+id/checkbox_house"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_museum"
+        android:id="@+id/checkbox_museum"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_church"
+        android:id="@+id/checkbox_church"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/type_government_building"
+        android:id="@+id/checkbox_government_building"
+        android:onClick="onCheckboxClicked"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_map_with_marker_settings_button"
+        android:id="@+id/view_map_with_marker_settings_button" />
+</LinearLayout>

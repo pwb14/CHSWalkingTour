@@ -39,7 +39,7 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
         // initial inserts for the database
         String tableName = Database_Contract.TABLE_NAME;
         String[] names = {"South Carolina Historical Society","First Baptist Church"};
-        String[] types = {"Museum","Church"};
+        String[] types = {"museum","church"};
         Double[] lats = {32.777245,32.773923};
         Double[] longs = {-79.930942,-79.930063};
         String[] imglinks = {"http://www.nps.gov/nr/travel/charleston/buildings/fir1.jpg",
@@ -58,13 +58,14 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor fetchAllMarkers(SQLiteDatabase db){
+    public Cursor fetchAllMarkers(SQLiteDatabase db, String where){
         Cursor c = db.query(Database_Contract.TABLE_NAME,
                 new String[] {key_id,key_name,
                         key_type,key_lat,key_long,key_imglink,key_desc},
-                null,null,null,null,null);
-        if (c != null)
-            c.moveToFirst();
+                where,null,null,null,null);
+//        if (c != null)
+//            c.moveToFirst();
+
         return c;
     }
     public Cursor fetchImageURL(SQLiteDatabase db, String name){

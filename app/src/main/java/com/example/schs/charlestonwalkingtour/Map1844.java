@@ -34,13 +34,18 @@ import java.net.URL;
 
 public class Map1844 extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    TileOverlay tileOverlay;
     Database_Sqliteopenhelper dbHelper = new Database_Sqliteopenhelper(this);
     private static final LatLng Charleston = new LatLng(32.78, -79.93); //getResources().getString(R.string.chas_*)
+    String whereClause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map1844);
+        whereClause=getIntent().getStringExtra("where");
+        Toast.makeText(getApplicationContext(), whereClause, Toast.LENGTH_SHORT).show();
+
         setUpMapIfNeeded();
     }
 
@@ -106,6 +111,7 @@ public class Map1844 extends FragmentActivity {
         return tileProvider;
     }
 
+
     private void setUpMap() {
         String name, imglink, desc;
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
@@ -146,14 +152,16 @@ public class Map1844 extends FragmentActivity {
 //            }
 //        };
 
-        final TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png")));
+         tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+            .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png")));
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Charleston,13));
+        mMap.setMyLocationEnabled(true);
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = dbHelper.fetchAllMarkers(db); // already at first
+        Cursor cursor = dbHelper.fetchAllMarkers(db,whereClause); // already at first
        // boolean a = true;
-        do {//cursor != null){
+        while(cursor != null && cursor.moveToNext() == true) {//cursor != null){
             name = cursor.getString(cursor.getColumnIndex("name"));
             String type = cursor.getString(cursor.getColumnIndex("type"));
             Double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
@@ -165,11 +173,14 @@ public class Map1844 extends FragmentActivity {
                     .position(location)
                     .title(name)
                     .snippet(desc)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.fireproof_icon)));
-           // if ()
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.red_marker)));
+            Toast.makeText(getApplicationContext(), "markers reached", Toast.LENGTH_SHORT).show();
+
+            // if ()
                // a = false;
             //cursor.moveToNext();
-        } while(cursor.moveToNext() == true);
+
+        }
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -190,9 +201,16 @@ public class Map1844 extends FragmentActivity {
                 builder.setTitle("Select a map");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
+                        tileOverlay.clearTileCache();
                         tileOverlay.remove();
-                        TileOverlay tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                        if (item == 0) {
+                            tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                                .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles/master/%d/%d/%d.png")));
+                        }
+                        if (item == 1) {
+                            tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
                                 .tileProvider(setTilesURL("https://raw.githubusercontent.com/pwb14/mapTiles1855/master/%d/%d/%d.png")));
+                        }
 
                     }
                 });

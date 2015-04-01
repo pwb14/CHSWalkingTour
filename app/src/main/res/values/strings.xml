@@ -3,12 +3,23 @@
     <string name="title_activity_map1844">Map</string>
     <string name="title_activity_main">Charleston Walking Tour</string>
 
-    <string name="main1844">William Keenan 1844 Map</string>
+    <string name="main1844">View the Map</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_more_info">More Info</string>
 
-    <string name="app_desc">Welcome to the digital Charleston Walking Tour.  Select a
-    map from below to view.  All information and images are provided by the South Carolina
-    Historical Society.</string>
+    <string name="app_desc">Welcome to the digital Charleston Walking Tour.  Click the \'View Map\' button
+        to view the map or select which markers you would like with the \'Set Markers\' button.
+        All information and images are provided by the South Carolina Historical Society.</string>
+    <string name="seal">South Carolina Historical Society Seal</string>
+    <string name="marker_settings_button">Set Marker Settings</string>
+    <string name="title_activity_marker_settings">MarkerSettingsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="type_selection">Select the type of markers you want displayed: </string>
+    <string name="type_house">House</string>
+    <string name="type_museum">Museum</string>
+    <string name="type_church">Church</string>
+    <string name="type_government_building">Government Building</string>
+    <string name="view_map_with_marker_settings_button">View Map</string>
 </resources>

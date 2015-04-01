@@ -23,7 +23,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Intent mapIntent = new Intent(getApplicationContext(), Map1844.class);
+                mapIntent.putExtra("where","");
                 startActivity(mapIntent);
+            }
+        });
+        Button markerSettingsButton = (Button) findViewById(R.id.marker_settings_button);
+        markerSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent markersIntent = new Intent(getApplicationContext(), MarkerSettingsActivity.class);
+                startActivity(markersIntent);
             }
         });
     }
