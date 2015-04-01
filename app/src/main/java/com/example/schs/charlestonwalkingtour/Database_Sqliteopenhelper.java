@@ -38,13 +38,13 @@ public class Database_Sqliteopenhelper extends SQLiteOpenHelper {
     private void insertContacts(SQLiteDatabase db){
         // initial inserts for the database
         String tableName = Database_Contract.TABLE_NAME;
-        String[] names = {"South Carolina Historical Society","First Baptist Church"};
-        String[] types = {"museum","church"};
-        Double[] lats = {32.777245,32.773923};
-        Double[] longs = {-79.930942,-79.930063};
+        String[] names = {"South Carolina Historical Society","First Baptist Church","Church"};
+        String[] types = {"museum","church","church"};
+        Double[] lats = {32.777245,32.773923,32.775923};
+        Double[] longs = {-79.930942,-79.930063,-79.930263};
         String[] imglinks = {"http://www.nps.gov/nr/travel/charleston/buildings/fir1.jpg",
-                "http://www.southcarolinahistoricalsociety.org/wp-content/uploads/2015/03/schs_first_baptist_chruch.jpg"};
-        String[] desc = {"My first datapoint","Regarded as the 'Mother Church' of the Southern Baptist denomination, Charleston's First Baptist Church at number 61 Church ..."};
+                "http://www.southcarolinahistoricalsociety.org/wp-content/uploads/2015/03/schs_first_baptist_chruch.jpg","http://misstrong.com/wp-content/uploads/2013/05/1ef70-yolo-final.jpg?w=300"};
+        String[] desc = {"My first datapoint","Regarded as the 'Mother Church' of the Southern Baptist denomination, Charleston's First Baptist Church at number 61 Church ...","This is a motherfucking church"};
 
         for(int i = 0; i < names.length; i++){
             ContentValues values = new ContentValues();
