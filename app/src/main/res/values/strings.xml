@@ -15,11 +15,18 @@
     <string name="marker_settings_button">Set Marker Settings</string>
     <string name="title_activity_marker_settings">MarkerSettingsActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="map1844">1844</string>
+    <string name="map1855">1855</string>
+    <string name="map1901">1901</string>
+    <string name="today">Today</string>
+    <string name="selectAMap">Select A Map</string>
     <string name="type_selection">Select the type of markers you want displayed: </string>
     <string name="type_house">House</string>
     <string name="type_museum">Museum</string>
     <string name="type_church">Church</string>
     <string name="type_government_building">Government Building</string>
     <string name="view_map_with_marker_settings_button">View Map</string>
+    <string name="title_activity_view_image">ViewImageActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

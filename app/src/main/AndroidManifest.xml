@@ -50,6 +50,10 @@
             android:name=".MarkerSettingsActivity"
             android:label="@string/title_activity_marker_settings" >
         </activity>
+        <activity
+            android:name=".ViewImageActivity"
+            android:label="@string/title_activity_view_image" >
+        </activity>
     </application>
 
 </manifest>

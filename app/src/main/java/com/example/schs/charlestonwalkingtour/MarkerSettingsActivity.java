@@ -91,7 +91,7 @@ public class MarkerSettingsActivity extends ActionBarActivity {
                 break;
 
         }
-        Toast.makeText(getApplicationContext(), joinStrings(), Toast.LENGTH_SHORT).show();
+
     }
     private String joinStrings(){
         where="";
