@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 
 public class MoreInfoActivity extends ActionBarActivity {
     Database_Sqliteopenhelper dbHelper = new Database_Sqliteopenhelper(this);

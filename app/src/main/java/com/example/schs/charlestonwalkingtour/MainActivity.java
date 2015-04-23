@@ -1,15 +1,12 @@
 package com.example.schs.charlestonwalkingtour;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-
 
 public class MainActivity extends ActionBarActivity {
     Database_Sqliteopenhelper dbHelper = new Database_Sqliteopenhelper(this); // create database if first run

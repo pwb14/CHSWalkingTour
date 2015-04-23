@@ -1,35 +1,27 @@
 package com.example.schs.charlestonwalkingtour;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;
-import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,26 +36,21 @@ public class Map1844 extends FragmentActivity {
     private static final String map1855 = "https://raw.githubusercontent.com/pwb14/mapTiles1855/master/%d/%d/%d.png";
     private static final String map1901 = "https://raw.githubusercontent.com/pwb14/mapTiles1901/master/%d/%d/%d.png";
     private String currentMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map1844);
         whereClause=getIntent().getStringExtra("where");
-        setUpMapIfNeeded(currentMap);
+        setUpMapIfNeeded();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded(currentMap);
+        setUpMapIfNeeded();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
-
-
     }
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -81,12 +68,12 @@ public class Map1844 extends FragmentActivity {
     protected void onRestoreInstanceState(Bundle inState){
         super.onRestoreInstanceState(inState);
         currentMap = inState.getString("mapURL");
-        setUpMapIfNeeded(currentMap);
+        tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                .tileProvider(setTilesURL(currentMap)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(inState.getDouble("lat"),inState.getDouble("lon")),inState.getFloat("zoom")));
 
     }
-
-    private void setUpMapIfNeeded(String desiredOverlay) {
+    private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -94,13 +81,11 @@ public class Map1844 extends FragmentActivity {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap(desiredOverlay);
+                setUpMap();
 
             }
         }
     }
-
-
     private TileProvider setTilesURL (final String url){
 
         TileProvider tileProvider = new UrlTileProvider(256, 256) {
@@ -137,33 +122,15 @@ public class Map1844 extends FragmentActivity {
     }
 
 
-    private void setUpMap(String desiredOverlay) {
+    private void setUpMap() {
         String name, imglink, desc;
-        tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                .tileProvider(setTilesURL(map1844)));
 
-        if (desiredOverlay == map1844) {
-            tileOverlay.clearTileCache();
-            tileOverlay.remove();
-            tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                    .tileProvider(setTilesURL(map1844)));
-            currentMap = map1844;
-        }else if (desiredOverlay == map1855){
-            tileOverlay.clearTileCache();
-            tileOverlay.remove();
-            tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                    .tileProvider(setTilesURL(map1855)));
-            currentMap = map1855;
-        }else if (desiredOverlay == map1901){
-            tileOverlay.clearTileCache();
-            tileOverlay.remove();
-            tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
-                    .tileProvider(setTilesURL(map1901)));
-            currentMap = map1901;
-        }else if (desiredOverlay == "none"){
-            tileOverlay.clearTileCache();
-            tileOverlay.remove();
-        }
+
+
+        tileOverlay = mMap.addTileOverlay(new TileOverlayOptions()
+                .tileProvider(setTilesURL(currentMap)));
+
+
 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Charleston,13));
@@ -225,7 +192,7 @@ public class Map1844 extends FragmentActivity {
 
                         }
                         if (item == 3) {
-                            currentMap="none";
+                            currentMap="";
 
                         }
 
